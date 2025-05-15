@@ -1,0 +1,12 @@
+﻿@using SimpleBookCatalog.BusinessLogic.Services
+@using SimpleBookCatalog.DataAccess.Repositories
+@inject BookService BookService
+
+<h3>ChildComponent</h3>
+
+BookService : @BookService.GetHashCode()
+
+
+@code {
+   
+}

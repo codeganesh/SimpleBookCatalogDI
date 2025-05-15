@@ -1,0 +1,74 @@
+﻿@page "/add-book"
+@using SimpleBookCatalog.BusinessLogic.Entities
+@using SimpleBookCatalog.BusinessLogic.Services
+@using SimpleBookCatalog.DataAccess.Repositories
+@inject NavigationManager Navigation
+@inject BookService BookService
+@inject DisposableType DisposableType
+ 
+<PageTitle>
+    Add New Book
+</PageTitle>
+
+BookService : @BookService.GetHashCode()
+
+<ChildComponent />
+
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <EditForm Enhance="true" method="post" FormName="AddBookForm" OnValidSubmit="SubmitBook" Model="Book" autocomplete="off">
+            <h3>
+                Add new book
+            </h3>
+
+            <div class="mb-3">
+                <label for="title" class="form-label">
+                    Title
+                </label>
+                <InputText id="title" @bind-Value="Book.Title" class="form-control shadow-none">
+                </InputText>
+            </div>
+
+            <div class="mb-3">
+                <label for="author" class="form-label">
+                    Author
+                </label>
+                <InputText id="author" @bind-Value="Book.Author" class="form-control shadow-none">
+                </InputText>
+            </div>
+
+            <div class="mb-3">
+                <label for="publication-date" class="form-label">
+                    Date Published
+                </label>
+                <InputDate id="publication-date" @bind-Value="Book.PublicationDate" class="form-control shadow-none">
+                </InputDate>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-primary shadow-none">
+                    Submit
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+
+
+    [SupplyParameterFromForm]
+    public Book Book { get; set; } = new();
+
+    private async Task SubmitBook()
+    {
+        await BookService.AddBook(
+            Book.Title,
+            Book.Author,
+            Book.PublicationDate
+        );
+
+        Navigation.NavigateTo("/");
+    }
+}
